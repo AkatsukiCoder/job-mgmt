@@ -21,9 +21,10 @@ return new class extends Migration
             $table->decimal('salary_max', 10, 2)->nullable();
             $table->string('currency', 10)->default('MYR');
             $table->string('status')->default('open');
-            $table->timestamp('posted_at')->nullable();
-            $table->timestamp('expires_at')->nullable();
+            $table->datetime('posted_at')->nullable();
+            $table->datetime('expires_at')->nullable();
             $table->foreignId('created_by')->constrained('users');
+            $table->timestamps();
         });
     }
 
