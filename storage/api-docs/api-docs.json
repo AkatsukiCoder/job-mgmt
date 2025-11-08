@@ -1,0 +1,741 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login user and retrieve API token",
+                "description": "User login and get API token.",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123def456ghi789jkl0"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user and revoke token",
+                "description": "Logout user and revoke current token.",
+                "operationId": "69281b12abb272c76871f19cb17ca563",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jobs": {
+            "get": {
+                "tags": [
+                    "JobPostings"
+                ],
+                "summary": "Get all job postings (paginated)",
+                "description": "Get all job postings with pagination.",
+                "operationId": "51402ed192e8b935fad4e3fbdb875f8b",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of job postings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Software Engineer"
+                                                    },
+                                                    "location": {
+                                                        "type": "string",
+                                                        "example": "Kuala Lumpur"
+                                                    },
+                                                    "employment_type": {
+                                                        "type": "string",
+                                                        "example": "Full-time"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Job description here"
+                                                    },
+                                                    "salary_min": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 3000
+                                                    },
+                                                    "salary_max": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 5000
+                                                    },
+                                                    "currency": {
+                                                        "type": "string",
+                                                        "example": "MYR"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "open"
+                                                    },
+                                                    "posted_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-11-08 10:00:00"
+                                                    },
+                                                    "expires_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-08 10:00:00"
+                                                    },
+                                                    "created_by": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "http://localhost/api/jobs?page=1"
+                                        },
+                                        "from": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "http://localhost/api/jobs?page=5"
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "http://localhost/api/jobs?page=2"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "http://localhost/api/jobs"
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "to": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 100
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "JobPostings"
+                ],
+                "summary": "Create a new job posting",
+                "description": "Create a new job posting.",
+                "operationId": "5c50f1e97e865bf45ef9c00770349eb3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "employment_type",
+                                    "status",
+                                    "posted_at"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "Job title",
+                                        "type": "string",
+                                        "example": "Senior Developer"
+                                    },
+                                    "location": {
+                                        "description": "Job location",
+                                        "type": "string",
+                                        "example": "Kuala Lumpur"
+                                    },
+                                    "employment_type": {
+                                        "description": "Type of employment",
+                                        "type": "string",
+                                        "enum": [
+                                            "Full-time",
+                                            "Part-time",
+                                            "Contract",
+                                            "Internship"
+                                        ],
+                                        "example": "Full-time"
+                                    },
+                                    "description": {
+                                        "description": "Job description",
+                                        "type": "string",
+                                        "example": "Develop and maintain web applications."
+                                    },
+                                    "salary_min": {
+                                        "description": "Minimum salary",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5000
+                                    },
+                                    "salary_max": {
+                                        "description": "Maximum salary",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 8000
+                                    },
+                                    "currency": {
+                                        "description": "Currency code, e.g., USD, MYR",
+                                        "type": "string",
+                                        "example": "MYR"
+                                    },
+                                    "status": {
+                                        "description": "Job status",
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed"
+                                        ],
+                                        "example": "open"
+                                    },
+                                    "posted_at": {
+                                        "description": "Posting date (Y-m-d H:i:s), must be in the future",
+                                        "type": "string",
+                                        "example": "2025-11-08 16:46:32"
+                                    },
+                                    "expires_at": {
+                                        "description": "Expiration date (Y-m-d H:i:s)",
+                                        "type": "string",
+                                        "example": "2025-11-15 16:46:32"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Job posting created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Job posting created successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Senior Developer"
+                                                },
+                                                "location": {
+                                                    "type": "string",
+                                                    "example": "Kuala Lumpur"
+                                                },
+                                                "employment_type": {
+                                                    "type": "string",
+                                                    "example": "Full-time"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Develop and maintain web applications."
+                                                },
+                                                "salary_min": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 5000
+                                                },
+                                                "salary_max": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 8000
+                                                },
+                                                "currency": {
+                                                    "type": "string",
+                                                    "example": "MYR"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "open"
+                                                },
+                                                "posted_at": {
+                                                    "type": "string",
+                                                    "example": "2025-11-08 16:46:32"
+                                                },
+                                                "expires_at": {
+                                                    "type": "string",
+                                                    "example": "2025-11-15 16:46:32"
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jobs/{id}": {
+            "get": {
+                "tags": [
+                    "JobPostings"
+                ],
+                "summary": "Get a specific job posting",
+                "description": "Get a specific job posting.",
+                "operationId": "520de9935a90968009e407b27eab9430",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the job posting",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Job posting details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "location": {
+                                            "type": "string"
+                                        },
+                                        "employment_type": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "salary_min": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "salary_max": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "currency": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "posted_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "created_by": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Job posting not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "JobPostings"
+                ],
+                "summary": "Update a job posting",
+                "description": "Update a specific job posting.",
+                "operationId": "6c6685976658720507a8cef80fe6ff54",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the job posting",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "employment_type"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Senior Developer"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "Kuala Lumpur"
+                                    },
+                                    "employment_type": {
+                                        "description": "Type of employment",
+                                        "type": "string",
+                                        "enum": [
+                                            "Full-time",
+                                            "Part-time",
+                                            "Contract",
+                                            "Internship"
+                                        ],
+                                        "example": "Full-time"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Job description here."
+                                    },
+                                    "salary_min": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5000
+                                    },
+                                    "salary_max": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 8000
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "MYR"
+                                    },
+                                    "status": {
+                                        "description": "Job status",
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed"
+                                        ],
+                                        "example": "open"
+                                    },
+                                    "posted_at": {
+                                        "description": "Posting date (Y-m-d H:i:s), must be in the future",
+                                        "type": "string",
+                                        "example": "2025-11-30 16:46:32"
+                                    },
+                                    "expires_at": {
+                                        "description": "Expiration date (Y-m-d H:i:s)",
+                                        "type": "string",
+                                        "example": "2025-12-10 16:46:32"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Job posting updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Job posting updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Senior Developer"
+                                                },
+                                                "location": {
+                                                    "type": "string",
+                                                    "example": "Kuala Lumpur"
+                                                },
+                                                "employment_type": {
+                                                    "type": "string",
+                                                    "example": "Full-time"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Job description here."
+                                                },
+                                                "salary_min": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 5000
+                                                },
+                                                "salary_max": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 8000
+                                                },
+                                                "currency": {
+                                                    "type": "string",
+                                                    "example": "MYR"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "open"
+                                                },
+                                                "posted_at": {
+                                                    "type": "string",
+                                                    "example": "2025-11-08 16:46:32"
+                                                },
+                                                "expires_at": {
+                                                    "type": "string",
+                                                    "example": "2025-11-15 16:46:32"
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Job posting not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "API endpoints for user authentication"
+        },
+        {
+            "name": "JobPostings",
+            "description": "Endpoints for managing job postings"
+        }
+    ]
+}

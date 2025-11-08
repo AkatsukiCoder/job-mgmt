@@ -20,6 +20,32 @@
         @endif
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+        <script>
+        async function testApi() {
+            const token = '3|ewrOttPZrn7jUCxF73uTJM7F5iWSpXj8myM1VRym9746b375'; // replace with valid token
+            try {
+                const response = await fetch('http://localhost:8000/api/jobs', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    credentials: 'include' // important if supports_credentials = true
+                });
+
+                if (!response.ok) throw new Error('HTTP error ' + response.status);
+
+                const data = await response.json();
+                document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+                console.log('API response:', data);
+            } catch (err) {
+                document.getElementById('result').innerText = 'Error: ' + err.message;
+                console.error(err);
+            }
+        }
+
+        testApi();
+    </script>
         <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
