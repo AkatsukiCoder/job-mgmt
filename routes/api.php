@@ -8,14 +8,22 @@ Route::get('/', function () {
     return 'pong';
 });
 
-Route::prefix('auth')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware(['throttle:60,1', 'auth:sanctum', 'request.log'])->group(function () {
+    Route::prefix('jobs')->group(function () {
+        Route::get('/', [JobPostingController::class, 'index']);
+        Route::post('/', [JobPostingController::class, 'store']);
+        Route::put('/{jobPosting}', [JobPostingController::class, 'update']);
+        Route::get('/{jobPosting}', [JobPostingController::class, 'show']);
+    });
+
+    Route::prefix('auth')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
 });
 
-Route::prefix('jobs')->middleware('auth:sanctum')->group(function () {
-    Route::get('/', [JobPostingController::class, 'index']);
-    Route::post('/', [JobPostingController::class, 'store']);
-    Route::put('/{jobPosting}', [JobPostingController::class, 'update']);
-    Route::get('/{jobPosting}', [JobPostingController::class, 'show']);
+Route::middleware(['throttle:60,1', 'request.log'])->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::post('/login', [AuthController::class, 'login']);
+    });
 });
+

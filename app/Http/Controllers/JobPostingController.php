@@ -28,18 +28,23 @@ class JobPostingController extends Controller
      *         in="query",
      *         description="Page number",
      *         required=false,
+     *
      *         @OA\Schema(type="integer", default=1)
      *     ),
      *
      *     @OA\Response(
      *         response=200,
      *         description="Paginated list of job postings",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="current_page", type="integer", example=1),
      *             @OA\Property(property="data", type="array",
+     *
      *                 @OA\Items(
      *                     type="object",
+     *
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="title", type="string", example="Software Engineer"),
      *                     @OA\Property(property="location", type="string", example="Kuala Lumpur"),
@@ -71,6 +76,7 @@ class JobPostingController extends Controller
     public function index(): JsonResponse
     {
         $defaultPerPage = 20;
+
         return response()->json(JobPosting::paginate($defaultPerPage));
     }
 
