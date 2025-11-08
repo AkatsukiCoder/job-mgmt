@@ -28,7 +28,7 @@ class StoreJobPostingRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'salary_min' => ['nullable', 'numeric', 'min:0'],
             'salary_max' => ['nullable', 'numeric', 'gte:salary_min'],
-            'currency' => ['nullable', 'string', 'max:10'],
+            'currency' => ['required', 'string', 'max:10'],
             'status' => ['nullable', 'string', 'in:'.implode(',', JobPosting::STATUSES)],
             'posted_at' => ['date', 'date_format:Y-m-d H:i:s', 'after_or_equal:now'],
             'expires_at' => ['date', 'date_format:Y-m-d H:i:s', 'after_or_equal:posted_at'],
