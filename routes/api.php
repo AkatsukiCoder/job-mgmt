@@ -26,4 +26,3 @@ Route::middleware(['throttle:60,1', 'request.log'])->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
     });
 });
-

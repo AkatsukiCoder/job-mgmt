@@ -10,8 +10,7 @@ class ApiResponse
         protected int $status,
         protected mixed $data,
         protected ?string $rawBody = null,
-    ) {
-    }
+    ) {}
 
     public static function fromHttpClient(\Illuminate\Http\Client\Response $response): self
     {
@@ -73,5 +72,3 @@ class ApiResponse
         return $this->rawBody;
     }
 }
-
-

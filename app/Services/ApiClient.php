@@ -15,8 +15,7 @@ class ApiClient
     public function __construct(
         protected HttpFactory $http,
         protected Kernel $kernel,
-    ) {
-    }
+    ) {}
 
     /**
      * Perform a JSON API request.
@@ -211,5 +210,3 @@ class ApiClient
         return ! (($scheme === 'http' && $port === 80) || ($scheme === 'https' && $port === 443));
     }
 }
-
-

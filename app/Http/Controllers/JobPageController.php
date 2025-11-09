@@ -14,9 +14,7 @@ use Illuminate\View\View;
 
 class JobPageController extends Controller
 {
-    public function __construct(protected ApiClient $api)
-    {
-    }
+    public function __construct(protected ApiClient $api) {}
 
     public function index(Request $request)
     {
@@ -256,5 +254,3 @@ class JobPageController extends Controller
         return $default;
     }
 }
-
-

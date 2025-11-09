@@ -9,9 +9,7 @@ use Illuminate\View\View;
 
 class AuthSessionController extends Controller
 {
-    public function __construct(protected ApiClient $api)
-    {
-    }
+    public function __construct(protected ApiClient $api) {}
 
     public function create(): View
     {
@@ -62,5 +60,3 @@ class AuthSessionController extends Controller
             ->with('status', 'Logged out successfully.');
     }
 }
-
-
